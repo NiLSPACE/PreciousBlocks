@@ -37,7 +37,7 @@ function cSQLiteStorage:__call()
 				:Field("z",          "INTEGER")
 				:Field("blocktype",  "INTEGER")
 				:Field("blockmeta",  "INTEGER")
-				:Field("playeruuid", "TEXT")
+				:Field("cause", "TEXT")
 				:Field("action",     "TEXT")
 				:Field("time",       "INTEGER")
 			)
@@ -53,15 +53,15 @@ end
 
 
 
-function cSQLiteStorage:InsertChange(a_Player, a_X, a_Y, a_Z, a_NewBlock, a_NewMeta, a_Action)
-	self.m_DB:Insert(a_Player:GetWorld():GetName(),
+function cSQLiteStorage:InsertChange(a_WorldName, a_PlayerName, a_X, a_Y, a_Z, a_NewBlock, a_NewMeta, a_Action)
+	self.m_DB:Insert(a_WorldName,
 		cInsertList()
 		:Insert("x", a_X)
 		:Insert("y", a_Y)
 		:Insert("z", a_Z)
 		:Insert("blocktype", a_NewBlock)
 		:Insert("blockmeta", a_NewMeta)
-		:Insert("playeruuid", a_Player:GetUUID())
+		:Insert("cause", a_PlayerName)
 		:Insert("action", a_Action)
 		:Insert("time", os.time())
 	)
@@ -71,7 +71,7 @@ end
 
 
 
-function cSQLiteStorage:RevertChangesInCuboid(a_World, a_Cuboid, a_PlayerUUID, a_Time)
+function cSQLiteStorage:RevertChangesInCuboid(a_World, a_Cuboid, a_PlayerName, a_Time)
 	local WorldName = a_World:GetName()
 	
 	-- Make sure the cuboid is sorted
@@ -84,7 +84,7 @@ function cSQLiteStorage:RevertChangesInCuboid(a_World, a_Cuboid, a_PlayerUUID, a
 	:Where("x", a_Cuboid.p2.x, "<")
 	:Where("y", a_Cuboid.p2.y, "<")
 	:Where("z", a_Cuboid.p2.z, "<")
-	:Where("playeruuid", a_PlayerUUID)
+	:Where("cause", a_PlayerName)
 	:Where("time", a_Time or 0, ">")
 	
 	-- Blockarea where we put all the changes first
@@ -93,16 +93,16 @@ function cSQLiteStorage:RevertChangesInCuboid(a_World, a_Cuboid, a_PlayerUUID, a
 	-- Read the area in
 	BlockArea:Read(a_World, a_Cuboid, cBlockArea.baTypes + cBlockArea.baMetas)
 	
-	-- All the changes in the time span
-	local results = self.m_DB:Select(WorldName, "*", whereList, "time")
-	
 	local NumChanges = 0
 	
-	-- Put all the reverted changes in the block handler
-	for _, blockInfo in ipairs(results) do
-		BlockArea:SetBlockTypeMeta(blockInfo['x'], blockInfo['y'], blockInfo['z'], blockInfo['blocktype'], blockInfo['blockmeta'])
-		NumChanges = NumChanges + 1
-	end
+	-- All the changes in the time span
+	self.m_DB:Select(WorldName, "x,y,z,blocktype,blockmeta", whereList, "time", nil,
+		function(a_UserData, a_NumCols, a_Values, a_Names)
+			BlockArea:SetBlockTypeMeta(a_Values[1], a_Values[2], a_Values[3], a_Values[4], a_Values[5])
+			NumChanges = NumChanges + 1
+			return 0
+		end
+	)
 	
 	-- Write rollback in the world
 	BlockArea:Write(a_World, a_Cuboid.p1)

@@ -12,21 +12,14 @@ function HandleRevertCommand(a_Split, a_Player)
 		return true
 	end
 	
-	table.remove(a_Split, 1) -- /pb
-	table.remove(a_Split, 1) -- revert
-	
-	local TargetPlayer = a_Split[1]
-	table.remove(a_Split, 1) -- TargetPlayer
-	
-	local Radius = tonumber(a_Split[1])
-	table.remove(a_Split, 1) -- Radius
+	local TargetPlayer = a_Split[3]
+	local Radius = tonumber(a_Split[4])
 	
 	if (not Radius) then
 		a_Player:SendMessage(cChatColor.Rose .. "Invalid radius")
 		return true
 	end
 	
-	local TargetUUID = GetUUIDFromPlayerName(TargetPlayer)
 	local CurrentPos = a_Player:GetPosition():Floor()
 	
 	local Cuboid = cCuboid(
@@ -36,7 +29,7 @@ function HandleRevertCommand(a_Split, a_Player)
 	)
 	
 	
-	local NumChanges = g_Storage:RevertChangesInCuboid(a_Player:GetWorld(), Cuboid, TargetUUID, 0)
+	local NumChanges = g_Storage:RevertChangesInCuboid(a_Player:GetWorld(), Cuboid, TargetPlayer, 0)
 	
 	a_Player:SendMessage(NumChanges .. " block(s) changed")
 	return true

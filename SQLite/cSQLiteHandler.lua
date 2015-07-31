@@ -166,7 +166,7 @@ end
 
 
 
-function cSQLiteHandler:Select(a_Table, a_Fields, a_WhereList, a_OrderBy, a_ReverseResults)
+function cSQLiteHandler:Select(a_Table, a_Fields, a_WhereList, a_OrderBy, a_ReverseResults, a_Handler)
 	assert(type(a_Table) == 'string')
 	
 	-- Take "*" as default
@@ -193,8 +193,10 @@ function cSQLiteHandler:Select(a_Table, a_Fields, a_WhereList, a_OrderBy, a_Reve
 		end
 	end
 	
+	local Handler = a_Handler or cSQLiteHandler.m_ListResults
+	
 	local Data = {}
-	local res, Err = self:Query(sql, cSQLiteHandler.m_ListResults, Data)
+	local res, Err = self:Query(sql, Handler, Data)
 	if (not res) then
 		-- Query was unsuccesfull
 		return false, Err;
