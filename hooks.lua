@@ -8,7 +8,10 @@ function InitHooks()
 	cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_PLACING_BLOCK, OnPlayerPlacingBlock)
 	cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_RIGHT_CLICK, OnPlayerRightClick);
 	cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_LEFT_CLICK, OnPlayerLeftClick);
-	cPluginManager:AddHook(cPluginManager.HOOK_BLOCK_SPREAD, OnBlockSpread);
+	
+	if (g_Config.LogNature) then
+		cPluginManager:AddHook(cPluginManager.HOOK_BLOCK_SPREAD, OnBlockSpread);
+	end
 end
 
 

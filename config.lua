@@ -6,6 +6,7 @@
 g_ConfigDefaults =
 {
 	Storage = 'sqlite',
+	LogNature = false,
 }
 
 
