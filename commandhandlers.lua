@@ -24,16 +24,26 @@ function HandleRevertCommand(a_Split, a_Player)
 	local TimeTable = os.date("*t", os.time())
 	for Idx = 5, #a_Split do
 		local Number, TimeType = a_Split[Idx]:match("(%d*)(%a*)")
-		if ((TimeType == "m") or TimeType:match("min")) then
+		if ((TimeType == "m") or TimeType:match("^min")) then
 			TimeTable.min = TimeTable.min - Number
-		elseif ((TimeType == "d") or TimeType:match("day")) then
+		elseif ((TimeType == "d") or TimeType:match("^day")) then
 			TimeTable.yday = TimeTable.yday - Number
-		elseif ((TimeType == "w") or TimeType:match("week")) then
+		elseif ((TimeType == "w") or TimeType:match("^week")) then
 			TimeTable.yday = TimeTable.yday - (Number * 7)
-		elseif (TimeType:match("month")) then
+		elseif (TimeType:match("^month")) then
 			TimeTable.month = TimeTable.month - Number
-		elseif (TimeType:match("year")) then
+		elseif (TimeType:match("^year")) then
 			TimeTable.year = TimeTable.year - Number
+		else
+			a_Player:SendMessage(cCompositeChat():AddTextPart([[Unknown time type. The usage goes like this: (number)(timetype).
+The time types are:
+ Minute: m or min
+ Days: d or day
+ Week: w or week
+ Month: month
+ Year: year
+  Example: "15min 2day 3week" will revert for 15 minutes, 2 days and 3 weeks.]], "@c"))
+			return true
 		end
 	end
 	
