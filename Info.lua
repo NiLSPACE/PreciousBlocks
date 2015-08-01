@@ -28,6 +28,17 @@ This plugin allows admins to see who or what placed a block, and revert it if ne
 					HelpString = "Revert an area around you",
 					Permission = "preciousblocks.reverse",
 					Handler = HandleRevertCommand,
+					ParameterCombinations =
+					{
+						{
+							Params = "PlayerName, RadiusAroundPlayer",
+							Help = "Revert all the changes from a player in the given radius",
+						},
+						{
+							Params = "PlayerName, RadiusAroundPlayer, TimeAgo",
+							Help = "Revert changes from a player in the given radius from a certain time ago.",
+						},
+					},
 				},
 				
 				inspect =
