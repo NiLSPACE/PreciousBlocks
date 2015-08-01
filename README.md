@@ -1,4 +1,4 @@
-
+This plugin allows admins to see who or what placed a block, and revert it if needed. 
 
 # Commands
 
