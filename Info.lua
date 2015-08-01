@@ -9,7 +9,10 @@ g_PluginInfo =
 	Version = "3",
 	Date = "2015-03-02",
 	SourceLocation = "https://github.com/NiLSPACE/PreciousBlocks",
-	Description = [[]],
+	Description = 
+[[
+This plugin allows admins to see who or what placed a block, and revert it if needed.
+]],
 	
 	Commands =
 	{
