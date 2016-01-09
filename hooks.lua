@@ -81,12 +81,7 @@ function OnPlayerRightClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace,
 		return false
 	end
 	
-	local Changes = g_Storage:GetChangesInPos(a_Player:GetWorld(), a_BlockX, a_BlockY, a_BlockZ)
-	a_Player:SendMessage("There are " .. #Changes .. " changes:")
-	
-	for Idx, ChangeInfo in ipairs(Changes) do
-		a_Player:SendMessage(string.format(" Cause: %s  Action: %s  Time: %s", ChangeInfo["cause"],  ChangeInfo["action"], ChangeInfo["time"]))
-	end
+	SendChangesAt(a_Player, a_BlockX, a_BlockY, a_BlockZ)
 	return true
 end
 
@@ -101,12 +96,7 @@ function OnPlayerLeftClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, 
 		return false
 	end
 	
-	local Changes = g_Storage:GetChangesInPos(a_Player:GetWorld(), a_BlockX, a_BlockY, a_BlockZ)
-	a_Player:SendMessage("There are " .. #Changes .. " changes:")
-	
-	for Idx, ChangeInfo in ipairs(Changes) do
-		a_Player:SendMessage(string.format(" Cause: %s  Action: %s  Time: %s", ChangeInfo["cause"],  ChangeInfo["action"], ChangeInfo["time"]))
-	end
+	SendChangesAt(a_Player, a_BlockX, a_BlockY, a_BlockZ)
 	return true
 end
 

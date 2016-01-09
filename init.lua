@@ -5,7 +5,7 @@
 
 function Initialize(a_Plugin)
 	a_Plugin:SetName("PreciousBlocks")
-	a_Plugin:SetVersion(3)
+	a_Plugin:SetVersion(g_PluginInfo.Version)
 	
 	-- Load the InfoReg shared library:
 	dofile(cPluginManager:GetPluginsPath() .. "/InfoReg.lua")
@@ -19,6 +19,7 @@ function Initialize(a_Plugin)
 	
 	InitStorage()
 	
+	LOG("Initialized PreciousBlocks v" .. g_PluginInfo.DisplayVersion)
 	return true
 end
 
