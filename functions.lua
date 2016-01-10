@@ -29,3 +29,18 @@ end
 
 
 
+
+
+-- TODO: format time properly
+function SendChangesAt(a_Player, a_BlockX, a_BlockY, a_BlockZ)
+	local Changes, NumChanges = g_Storage:GetChangesInPos(a_Player:GetWorld(), a_BlockX, a_BlockY, a_BlockZ)
+	a_Player:SendMessage("There are " .. NumChanges .. " changes:")
+	
+	for Idx, ChangeInfo in ipairs(Changes) do
+		a_Player:SendMessage(string.format(" Cause: %q  Action: %s  Time: %s seconds ago", ChangeInfo.cause,  ChangeInfo.action, os.time() - ChangeInfo.time))
+	end
+end
+
+
+
+

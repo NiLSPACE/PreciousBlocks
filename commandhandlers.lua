@@ -1,9 +1,12 @@
 
+-- commandhandlers.lua
+
+-- Implements the handling of in-game commands available to players
 
 
 
 
--- TODO: Add the time parameter
+
 function HandleRevertCommand(a_Split, a_Player)
 	-- /pb revert <PlayerName> <Radius> (Time)
 	
@@ -56,7 +59,7 @@ The time types are:
 	Cuboid:Expand(Radius, Radius, Radius, Radius, Radius, Radius)
 	Cuboid:Sort()
 	
-	local NumChanges = g_Storage:RevertChangesInCuboid(a_Player:GetWorld(), Cuboid, TargetPlayer, os.time(TimeTable))
+	local NumChanges = g_Storage:RevertChangesInCuboid(a_Player:GetWorld(), Cuboid, TargetPlayer, MinimumTime)
 	
 	a_Player:SendMessage(NumChanges .. " block(s) changed")
 	return true

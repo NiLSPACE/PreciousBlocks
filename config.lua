@@ -3,11 +3,12 @@
 
 
 
-g_ConfigDefaults =
-{
-	Storage = 'sqlite',
-	LogNature = false,
-}
+g_ConfigDefaults = [[
+Storage = 'sqlite',
+
+-- This can cause huge amounts of lagg and cause the database to grow really big.
+LogNature = false,
+]]
 
 
 
@@ -62,7 +63,7 @@ end
 
 
 function LoadDefaultSettings()
-	g_Config = g_ConfigDefaults
+	g_Config = loadstring("return {" .. g_ConfigDefaults .. "}")()
 end
 
 
@@ -71,10 +72,7 @@ end
 
 function WriteDefaultSettings(a_Path)
 	local File = io.open(a_Path, "w")
-	for Key, Value in pairs(g_ConfigDefaults) do
-		local StringToFormat = type(Value) == 'string' and "%s = '%s',\n" or "%s = %s,\n"
-		File:write(StringToFormat:format(Key, Value))
-	end
+	File:write(g_ConfigDefaults)
 	File:close()
 end
 

@@ -6,8 +6,9 @@
 g_PluginInfo = 
 {
 	Name = "PreciousBlocks",
-	Version = "3",
-	Date = "2015-03-02",
+	Version = 4,
+	DisplayVersion = "3.1",
+	Date = "2016-01-09", -- yyyy-mm-dd
 	SourceLocation = "https://github.com/NiLSPACE/PreciousBlocks",
 	Description = 
 [[
